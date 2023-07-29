@@ -2,12 +2,13 @@
 // import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 // компоненты
-import PageNotFound  from "../PageNotFound/PageNotFound.js";
+import PageNotFound from "../PageNotFound/PageNotFound.js";
 import AuthForm from "../AuthForm/AuthForm.js";
 
-import './App.css';
+import "./App.css";
 import Header from "../Header/Header.js";
 import Main from "../Main/Main.js";
+import Footer from "../Footer/Footer.js";
 import { useState } from "react";
 
 function App() {
@@ -17,13 +18,22 @@ function App() {
   //разметка
   return (
     <div className="app">
-              <Header loggedIn={loggedIn} />
+      <Header loggedIn={loggedIn} />
 
       <Routes>
-      <Route path="/" element={<Main />} />
+        <Route path="/" element={<Main />} />
         <Route path="/notfound" element={<PageNotFound />} />
-        <Route path="/signup" element= {<AuthForm title="Добро пожаловать!" buttonText="Зарегистрироваться" />} />
+        <Route
+          path="/signup"
+          element={
+            <AuthForm
+              title="Добро пожаловать!"
+              buttonText="Зарегистрироваться"
+            />
+          }
+        />
       </Routes>
+      <Footer />
     </div>
   );
 }
