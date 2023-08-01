@@ -53,6 +53,7 @@
 
 .profile__btn-exit {
   border: 0;
+  padding: 0;
   background-color: transparent;
   color: #ff4062;
   font-size: 13px;
