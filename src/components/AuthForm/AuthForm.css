@@ -39,7 +39,7 @@
 }
 
 .auth__input:invalid {
-    color: #FF4062;
+  color: #ff4062;
 }
 
 .auth__input:focus {
@@ -57,37 +57,82 @@
 }
 
 .auth__button {
-    max-width: 396px;
-    width: 100%;
-height: 45px;
-font-size: 14px;
-font-style: normal;
-font-weight: 500;
-line-height: normal;
-    position: relative;
-top: 134px;
+  max-width: 396px;
+  width: 100%;
+  height: 45px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  position: relative;
+  top: 134px; /*тут надо что-то придумать*/
 }
 
 .auth__text {
-color: #A0A0A0;
-text-align: center;
-font-family: Inter;
-font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-padding-right: 6px;
-
+  color: #a0a0a0;
+  text-align: center;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding-right: 6px;
 }
 
 .auth_link {
+  display: block;
+  padding-top: 16px;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  position: relative;
+  top: 134px; /*тут надо что-то придумать*/
+}
+
+@media screen and (max-width: 800px) {
+  .auth {
+    padding: 232px 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .auth {
+    padding: 56px 30px 0;
+  }
+  .auth__logo {
     display: block;
-    padding-top: 16px;
+    margin: 0 auto;
+  }
+  .auth__title {
     text-align: center;
-    font-size: 14px;
-font-style: normal;
-font-weight: 400;
-line-height: normal;
-    position: relative;
-top: 134px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 50px 0 80px;
+  }
+  .auth__button {
+    top: 222px; /*тут надо что-то придумать*/
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+  .auth__text {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .auth_link {
+    top: 222px; /*тут надо что-то придумать*/
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+      padding-top: 14px;
+
+  }
 }
