@@ -1,4 +1,6 @@
 import "./Footer.css";
+import "../../blocks/link.css";
+
 
 function Footer() {
     return (
@@ -8,10 +10,10 @@ function Footer() {
         </p>
         <ul className="footer__link-list">
           <li className="footer__link-unit">
-            <a className="footer__link">Яндекс.Практикум</a>
+            <a className="footer__link link" href="#">Яндекс.Практикум</a>
           </li>
           <li className="footer__link-unit">
-            <a className="footer__link">Github</a>
+            <a className="footer__link link" href="#">Github</a>
           </li>
         </ul>
         <p className="footer__year">© 2023</p>

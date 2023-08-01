@@ -1,4 +1,5 @@
 import "./AboutMe.css";
+import "../../blocks/link.css";
 import photo from "../../images/Barbie Tati.png";
 
 function AboutMe() {
@@ -15,7 +16,7 @@ function AboutMe() {
         как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и
         ушёл с постоянной работы.
       </p>
-      <a className="aboutme__link" href="https://github.com/tati-tati">
+      <a className="aboutme__link link" href="https://github.com/tati-tati">
         Github
       </a>
     </section>
