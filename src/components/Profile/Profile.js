@@ -11,7 +11,7 @@ function Profile() {
               className="profile__input"
               placeholder="Name"
               type="text"
-               value="Виталий"
+              value="Виталий"
             />
           </label>
           <label className="profile__label">
@@ -27,6 +27,9 @@ function Profile() {
             Редактировать
           </button>
         </form>
+        {/* <span className="profile__error-span">
+          При обновлении профиля произошла ошибка.
+        </span> */}
         <button className="profile__btn-exit" type="button">
           Выйти из аккаунта
         </button>

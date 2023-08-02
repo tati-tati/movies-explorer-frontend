@@ -41,6 +41,10 @@
   padding: 0;
 }
 
+.profile__input:focus {
+  outline: none;
+}
+
 .profile__btn-submit {
   border: 0;
   background-color: transparent;
@@ -49,6 +53,18 @@
   font-weight: 400;
   line-height: normal;
   padding: 220px 0 16px;
+}
+
+.profile__error-span {
+  color: #FF004C;
+text-align: center;
+font-family: Inter;
+font-size: 11px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+padding: 0 0 20px;
+display: block;
 }
 
 .profile__btn-exit {

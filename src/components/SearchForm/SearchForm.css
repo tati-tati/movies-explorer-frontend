@@ -1,0 +1,39 @@
+.search__form {
+  padding: 70px 70px 48px;
+}
+
+.search__container {
+  border-bottom: 1px solid #e8e8e8;
+  margin-bottom: 33px;
+  display: flex;
+}
+
+.search__input {
+  border: none;
+  padding: 0 0 13px;
+  width: 100%;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.search__input::placeholder {
+  color: #a0a0a0;
+  font-feature-settings: "clig" off, "liga" off;
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.search__btn {
+  border-radius: 48px;
+  width: 58.65px;
+  height: 34px;
+  font-feature-settings: "clig" off, "liga" off;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 18px; /* 163.636% */
+}
