@@ -23,14 +23,14 @@ function Profile() {
               value="pochta@yandex.ru"
             />
           </label>
-          <button className="profile__btn-submit" type="submit">
+          <button className="profile__btn-submit link" type="submit">
             Редактировать
           </button>
         </form>
         {/* <span className="profile__error-span">
           При обновлении профиля произошла ошибка.
         </span> */}
-        <button className="profile__btn-exit" type="button">
+        <button className="profile__btn-exit link" type="button">
           Выйти из аккаунта
         </button>
       </section>

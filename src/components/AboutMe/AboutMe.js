@@ -16,7 +16,7 @@ function AboutMe() {
         как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и
         ушёл с постоянной работы.
       </p>
-      <a className="aboutme__link link" href="https://github.com/tati-tati">
+      <a className="aboutme__link link" href="https://github.com/tati-tati" target="_blank">
         Github
       </a>
     </section>

@@ -1,5 +1,5 @@
 # movies-explorer-frontend
-
+Макет сгенерирован плагином - 
 [Макет в Figma](https://disk.yandex.ru/d/xR7sZUhngr4dvQ)
 
 Домен

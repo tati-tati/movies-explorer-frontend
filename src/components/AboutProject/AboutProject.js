@@ -13,7 +13,7 @@ function AboutProject() {
             функциональности и финальные доработки.
           </p>
           <p className="project__subtitle">
-            На выполнение диплома ушло 5 недель{" "}
+            На выполнение диплома ушло 5 недель
           </p>
           <p className="project__text">
             У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было
@@ -22,10 +22,10 @@ function AboutProject() {
         </article>
 
         <div className="project__scale">
-          <p1 className="project__week">1 неделя</p1>
-          <p1 className="project__weeks">4 недели</p1>
-          <p1 className="project__underline">Back-end</p1>
-          <p1 className="project__underline">Front-end</p1>
+          <p className="project__week">1 неделя</p>
+          <p className="project__weeks">4 недели</p>
+          <p className="project__underline">Back-end</p>
+          <p className="project__underline">Front-end</p>
         </div>
       </section>
     );

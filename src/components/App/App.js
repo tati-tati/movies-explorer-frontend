@@ -11,6 +11,7 @@ import SavedMovies from '../SavedMovies/SavedMovies.js';
 import Profile from '../Profile/Profile.js';
 import Footer from "../Footer/Footer.js";
 import Register from "../Register/Register.js";
+import Preloader from "../Preloader/Preloader.js";
 
 import "./App.css";
 
@@ -27,7 +28,7 @@ function App() {
   return (
     <div className="app">
       {showHeader && <Header loggedIn={loggedIn} />}
-
+<Preloader />
       <Routes>
         <Route path="*" element={<PageNotFound />} />
         <Route path="/" element={<Main />} />

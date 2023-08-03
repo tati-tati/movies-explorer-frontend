@@ -18,6 +18,15 @@
   line-height: normal;
 }
 
+.search__input:focus {
+  outline: none;
+}
+
+.search__input:focus::placeholder {
+  font-weight: 400;
+  font-size: 24px;
+}
+
 .search__input::placeholder {
   color: #a0a0a0;
   font-feature-settings: "clig" off, "liga" off;

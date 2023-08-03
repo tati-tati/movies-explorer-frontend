@@ -43,6 +43,7 @@ function AuthForm(props) {
               type="text"
               onChange={handleInputName}
               value={name}
+              required
             />
             {/* <span className="auth__input_error">Что-то пошло не так...</span> */}
           </label>
@@ -55,6 +56,7 @@ function AuthForm(props) {
             type="email"
             onChange={handleInputEmail}
             value={email}
+            required
           />
           {/* <span className="auth__input_error">Что-то пошло не так...</span> */}
         </label>
@@ -67,6 +69,7 @@ function AuthForm(props) {
             type="password"
             onChange={handleInputPassword}
             value={password}
+            required
           />
           <span className="auth__input_error">Что-то пошло не так...</span>
         </label>

@@ -9,7 +9,7 @@ function MoviesCard(props) {
           <p className="card__length">{props.length}</p>
           <div className="card__like card__like_active" />
         </div>
-        <img className="card__image" src={img} alt={props.title} />
+        <img className="card__image" src={img} alt={`обложка фильма ${props.title}`} />
       </div>
     );
 }

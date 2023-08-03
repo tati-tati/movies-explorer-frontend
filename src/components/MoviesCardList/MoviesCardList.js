@@ -11,6 +11,15 @@ function MoviesCardList() {
           <li className="card-list__item">
             <MoviesCard title="Бег это свобода" length="1ч 42м" />
           </li>
+          <li className="card-list__item">
+            <MoviesCard title="Бег это свобода" length="1ч 42м" />
+          </li>
+          <li className="card-list__item">
+            <MoviesCard title="Бег это свобода" length="1ч 42м" />
+          </li>
+          <li className="card-list__item">
+            <MoviesCard title="Бег это свобода" length="1ч 42м" />
+          </li>
         </ul>
       </section>
     );
