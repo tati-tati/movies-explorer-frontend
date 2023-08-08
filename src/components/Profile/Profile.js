@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import "./Profile.css";
 
 function Profile() {
@@ -12,9 +13,9 @@ function Profile() {
         E-mail
         <p className="profile__info-value">pochta@yandex.ru</p>
       </h3>
-      <button className="profile__btn-edit link" type="button">
+      <NavLink to="/edit" className="profile__btn-edit link">
         Редактировать
-      </button>
+      </NavLink>
       <button className="profile__btn-exit link" type="button">
         Выйти из аккаунта
       </button>

@@ -6,13 +6,13 @@ import PageNotFound from "../PageNotFound/PageNotFound.js";
 import Login from "../Login/Login.js";
 import Header from "../Header/Header.js";
 import Main from "../Main/Main.js";
-import Movies from '../Movies/Movies.js';
-import SavedMovies from '../SavedMovies/SavedMovies.js';
-import ProfileEdit from '../ProfileEdit/ProfileEdit.js';
+import Movies from "../Movies/Movies.js";
+import SavedMovies from "../SavedMovies/SavedMovies.js";
+import ProfileEdit from "../ProfileEdit/ProfileEdit.js";
 import Profile from "../Profile/Profile.js";
 import Footer from "../Footer/Footer.js";
 import Register from "../Register/Register.js";
-// import Preloader from "../Preloader/Preloader.js";
+import Preloader from "../Preloader/Preloader.js";
 
 import "./App.css";
 
@@ -20,7 +20,13 @@ function App() {
   // функции
   const [loggedIn, setLoggedIn] = useState(true);
   const location = useLocation();
-  const showHeaderPages = ["/", "/movies", "/saved-movies", "/profile"];
+  const showHeaderPages = [
+    "/",
+    "/movies",
+    "/saved-movies",
+    "/profile",
+    "/edit",
+  ];
   const showHeader = showHeaderPages.includes(location.pathname);
   const showFooterPages = ["/", "/movies", "/saved-movies"];
   const showFooter = showFooterPages.includes(location.pathname);
@@ -28,7 +34,7 @@ function App() {
   //разметка
   return (
     <div className="app">
-      {/* <Preloader /> */}
+      {!showHeader && <Preloader />}
       {showHeader && <Header loggedIn={loggedIn} />}
       <Routes>
         <Route path="*" element={<PageNotFound />} />
@@ -37,7 +43,8 @@ function App() {
         <Route path="/signin" element={<Login />} />
         <Route path="/movies" element={<Movies />} />
         <Route path="/saved-movies" element={<SavedMovies />} />
-        <Route path="/profile" element={<ProfileEdit />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/edit" element={<ProfileEdit />} />
       </Routes>
       {showFooter && <Footer />}
     </div>
