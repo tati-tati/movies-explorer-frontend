@@ -8,10 +8,11 @@ import Header from "../Header/Header.js";
 import Main from "../Main/Main.js";
 import Movies from '../Movies/Movies.js';
 import SavedMovies from '../SavedMovies/SavedMovies.js';
-import Profile from '../Profile/Profile.js';
+import ProfileEdit from '../ProfileEdit/ProfileEdit.js';
+import Profile from "../Profile/Profile.js";
 import Footer from "../Footer/Footer.js";
 import Register from "../Register/Register.js";
-import Preloader from "../Preloader/Preloader.js";
+// import Preloader from "../Preloader/Preloader.js";
 
 import "./App.css";
 
@@ -27,8 +28,8 @@ function App() {
   //разметка
   return (
     <div className="app">
+      {/* <Preloader /> */}
       {showHeader && <Header loggedIn={loggedIn} />}
-<Preloader />
       <Routes>
         <Route path="*" element={<PageNotFound />} />
         <Route path="/" element={<Main />} />
@@ -36,7 +37,7 @@ function App() {
         <Route path="/signin" element={<Login />} />
         <Route path="/movies" element={<Movies />} />
         <Route path="/saved-movies" element={<SavedMovies />} />
-        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile" element={<ProfileEdit />} />
       </Routes>
       {showFooter && <Footer />}
     </div>

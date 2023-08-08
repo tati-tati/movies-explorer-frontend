@@ -45,7 +45,7 @@ function AuthForm(props) {
               value={name}
               required
             />
-            {/* <span className="auth__input_error">Что-то пошло не так...</span> */}
+            <span className="auth__input_error">Что-то пошло не так...</span>
           </label>
         )}
         <label className="auth__label">
@@ -58,7 +58,7 @@ function AuthForm(props) {
             value={email}
             required
           />
-          {/* <span className="auth__input_error">Что-то пошло не так...</span> */}
+          <span className="auth__input_error">Что-то пошло не так...</span>
         </label>
 
         <label className="auth__label">

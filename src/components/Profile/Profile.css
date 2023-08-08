@@ -4,7 +4,7 @@
   max-width: 410px;
 }
 
-.profile__title-name {
+.profile__title {
   font-size: 24px;
   font-style: normal;
   font-weight: 500;
@@ -13,7 +13,7 @@
   margin: 0;
 }
 
-.profile__label {
+.profile__info {
   display: flex;
   justify-content: space-between;
   font-size: 11px;
@@ -21,16 +21,17 @@
   font-weight: 500;
   line-height: normal;
   padding: 0;
+  margin: 0;
 }
 
-.profile__label:first-of-type {
-  padding-bottom: 16px;
+.profile__info:first-of-type {
+  padding-bottom: 17px;
   border-bottom: 1px solid #e8e8e8;
-  margin-bottom: 16px;
+  margin-bottom: 17px;
+  /* box-sizing: border-box; */
 }
 
-.profile__input {
-  color: #000;
+.profile__info-value {
   text-align: right;
   font-size: 11px;
   font-style: normal;
@@ -38,33 +39,19 @@
   line-height: normal;
   border: none;
   padding: 0;
+  margin: 0;
 }
 
-.profile__input:focus {
-  outline: 1px dotted #e8e8e8;
-  font-weight: 900;
-}
-
-.profile__btn-submit {
+.profile__btn-edit {
+  display: block;
+  margin: 0 auto;
   border: 0;
   background-color: transparent;
   font-size: 13px;
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  padding: 220px 0 16px;
-}
-
-.profile__error-span {
-  color: #ff004c;
-  text-align: center;
-  font-family: Inter;
-  font-size: 11px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  padding: 0 0 20px;
-  display: block;
+  padding: 220px 0 17px;
 }
 
 .profile__btn-exit {
@@ -79,10 +66,10 @@
 }
 
 @media screen and (max-width: 800px) {
-  .profile__title-name {
+  .profile__title {
     padding: 236px 0 96px;
   }
-  .profile__btn-submit {
+  .profile__btn-edit {
     padding: 210px 0 16px;
   }
 }
@@ -91,12 +78,11 @@
   .profile {
     max-width: 260px;
   }
-  .profile__title-name {
+  .profile__title {
     padding: 70px 0 80px;
   }
-  .profile__btn-submit {
+  .profile__btn-edit {
     padding: 379px 0 16px;
-    color: #000;
     font-size: 12px;
     font-style: normal;
     font-weight: 400;

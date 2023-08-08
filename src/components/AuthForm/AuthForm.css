@@ -4,8 +4,11 @@
   padding: 70px 0;
 }
 
-/* .auth__form {
-} */
+.auth__form {
+  min-height: 485px;
+  display: grid;
+  grid-template-rows:max-content max-content max-content 1fr;
+}
 
 .auth__title {
   font-size: 24px;
@@ -25,7 +28,7 @@
   line-height: normal;
   display: flex;
   flex-direction: column;
-  margin-top: 24px;
+  /* margin-top: 6px; */
 }
 
 .auth__input {
@@ -53,7 +56,9 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  margin: 6px 0 0;
+  margin: 6px 0 6px;
+  padding: 0;
+  height: 12px;
 }
 
 .auth__button {
@@ -64,8 +69,9 @@
   font-style: normal;
   font-weight: 500;
   line-height: normal;
-  position: relative;
-  top: 134px; /*тут надо что-то придумать*/
+align-self: end;
+  /* position: relative; */
+  /* top: 134px; тут надо что-то придумать */
 }
 
 .auth__text {
@@ -87,8 +93,8 @@
   font-style: normal;
   font-weight: 400;
   line-height: normal;
-  position: relative;
-  top: 134px; /*тут надо что-то придумать*/
+  /* position: relative; */
+  /* top: 134px; тут надо что-то придумать */
 }
 
 @media screen and (max-width: 800px) {
@@ -100,6 +106,9 @@
 @media screen and (max-width: 500px) {
   .auth {
     padding: 56px 30px 0;
+  }
+  .auth__form {
+  min-height: 627px;
   }
   .auth__logo {
     display: block;
@@ -132,7 +141,6 @@
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-      padding-top: 14px;
-
+    padding-top: 14px;
   }
 }
