@@ -1,0 +1,79 @@
+.menu {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: 2;
+}
+
+.menu__container {
+  width: 520px;
+  height: 100vh;
+  padding: 23px 23px 85px;
+  background: #fff;
+  position: fixed;
+  top: 0;
+  right: 0;
+  transition: 0.5s ease;
+  display: grid;
+  grid-template-rows: 135px 51px 51px 51px 1fr;
+  box-sizing: border-box;
+  opacity: 1;
+  z-index: 3;
+}
+
+.menu__btn {
+  font-feature-settings: "clig" off, "liga" off;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  text-align: center;
+  height: 26px;
+  width: fit-content;
+  justify-self: center;
+}
+
+.active {
+  border-bottom: 2px solid #000;
+}
+
+.menu__btn-exit {
+  display: block;
+  background-color: #fff;
+  background-image: url("../../images/cross_remove.svg");
+  background-repeat: no-repeat;
+  background-position: 100%;
+  background-size: cover;
+  width: 24px;
+  height: 24px;
+  justify-self: flex-end;
+}
+
+.menu__btn-account {
+  /* outline: 1px red solid; */
+  padding: 14px 0 0;
+  justify-self: center;
+  width: 100px;
+  height: 32px;
+  background-image: url(../../images/account.svg);
+  background-repeat: no-repeat;
+  background-position: right 7px center;
+  text-decoration: none;
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 114.286% */
+  align-self: end;
+}
+
+@media screen and (max-width: 520px) {
+  .menu__container {
+    width: 100%;
+    padding: 13px 13px 40px;
+    grid-template-rows: 132px 46px 46px 46px 1fr;
+  }
+}

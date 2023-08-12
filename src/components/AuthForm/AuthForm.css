@@ -1,0 +1,144 @@
+.auth {
+  max-width: 396px;
+  margin: 0 auto;
+  padding: 70px 0;
+}
+
+.auth__form {
+  min-height: 485px;
+  display: grid;
+  grid-template-rows: max-content max-content max-content 1fr;
+}
+
+.auth__title {
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  margin: 38px 0;
+  padding: 0;
+}
+
+.auth__label {
+  color: #a0a0a0;
+  font-family: Inter;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  display: flex;
+  flex-direction: column;
+  /* margin-top: 6px; */
+}
+
+.auth__input {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border: none;
+  border-bottom: 1px solid #e8e8e8;
+  padding: 5px 0 10px;
+}
+
+.auth__input:invalid {
+  color: #ff4062;
+}
+
+.auth__input:focus {
+  outline: none;
+  border-bottom: 1px solid #000;
+}
+
+.auth__input_error {
+  color: #ff4062;
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin: 6px 0 6px;
+  padding: 0;
+  height: 12px;
+}
+
+.auth__button {
+  max-width: 396px;
+  width: 100%;
+  height: 45px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  align-self: end;
+  /* position: relative; */
+}
+
+.auth__text {
+  color: #a0a0a0;
+  text-align: center;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  padding-right: 6px;
+}
+
+.auth_link {
+  display: block;
+  padding-top: 16px;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  /* position: relative; */
+}
+
+@media screen and (max-width: 800px) {
+  .auth {
+    padding: 232px 0;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .auth {
+    padding: 56px 30px 30px;
+  }
+  .auth__form {
+    min-height: 627px;
+  }
+  .auth__logo {
+    display: block;
+    margin: 0 auto;
+  }
+  .auth__title {
+    text-align: center;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+    margin: 50px 0 80px;
+  }
+  .auth__button {
+    top: 222px;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
+  }
+  .auth__text {
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+  .auth_link {
+    top: 222px;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    padding-top: 14px;
+  }
+}

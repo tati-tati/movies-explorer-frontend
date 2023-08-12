@@ -1,0 +1,78 @@
+.header {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 70px;
+}
+
+.header_pink {
+  background: #f3c1f8;
+}
+
+.header__logo-link {
+  font-size: 0;
+}
+
+.header__container {
+  font-size: 0;
+}
+
+.header__link {
+  color: #000;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 133.333%;
+}
+
+.header__profile-link {
+  margin-left: 20px;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 128.571% */
+}
+
+.active {
+  font-weight: 500;
+}
+
+.header__btn {
+  padding: 8px 20px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 133.333%;
+  margin-left: 30px;
+}
+
+.header__btn_profile {
+  padding: 5px 43px 6px 22px;
+  background-image: url(../../images/account.svg);
+  background-repeat: no-repeat;
+  background-position: right 7px center;
+  text-decoration: none;
+  color: #000;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 16px; /* 114.286% */
+}
+
+.header__btn-wrapper {
+  background-image: url("../../images/btn-menu.svg");
+  background-color: transparent;
+  width: 44px;
+  height: 44px;
+}
+
+@media screen and (max-width: 815px) {
+  .header {
+    padding: 15px 30px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .header {
+    padding: 15px 14px;
+  }
+}
