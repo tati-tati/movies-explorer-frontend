@@ -1,4 +1,4 @@
-import { NavLink, Link } from "react-router-dom";
+import { NavLink, Link, useLocation } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import "./Header.css";
 import "../../blocks/link.css";
@@ -9,6 +9,17 @@ import { useEffect, useState } from "react";
 function Header(props) {
   const [width, setWidth] = useState(window.innerWidth);
   const [openMenu, setOpenMenu] = useState(false);
+  const [mainPage, setMainPage] = useState(false);
+
+  const locationHeader = useLocation();
+
+  useEffect(() => {
+    if (locationHeader.pathname === "/") {
+      setMainPage(true);
+    } else {
+      setMainPage(false);
+    }
+  }, [locationHeader]);
 
   function handleOpenMenu() {
     setOpenMenu(true);
@@ -34,8 +45,8 @@ function Header(props) {
   }, []);
 
   return (
-    <header className={`header ${props.loggedIn ? "" : "header_pink"}`}>
-      <Link to="/" className="header__logo_link">
+    <header className={`header ${mainPage ? "header_pink" : ""}`}>
+      <Link to="/" className="header__logo-link">
         <img className="header__logo" src={logo} alt="логотип приложения" />
       </Link>
       {props.loggedIn ? (

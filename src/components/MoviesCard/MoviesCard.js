@@ -1,5 +1,5 @@
 import "./MoviesCard.css";
-import img from '../../images/pic__COLOR_pic.png';
+import img from '../../images/pic__COLOR_pic.jpg';
 
 function MoviesCard(props) {
     return (
@@ -7,9 +7,19 @@ function MoviesCard(props) {
         <div className="card__info">
           <h2 className="card__title">{props.title}</h2>
           <p className="card__length">{props.length}</p>
-          <div className="card__like card__like_active" />
+          {props.buttonType === "liked" ? (
+            <button className="card__like card__like_active button" type="button" />
+          ) : props.buttonType === "notLiked" ? (
+            <button className="card__like button" type="button" />
+          ) : (
+            <button className="card__like card__btn-remove button" type="button" />
+          )}
         </div>
-        <img className="card__image" src={img} alt={`обложка фильма ${props.title}`} />
+        <img
+          className="card__image"
+          src={img}
+          alt={`обложка фильма ${props.title}`}
+        />
       </div>
     );
 }

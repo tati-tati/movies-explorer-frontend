@@ -19,6 +19,7 @@ import "./App.css";
 function App() {
   // функции
   const [loggedIn, setLoggedIn] = useState(true);
+  const [showPreloader, setShowPreloader] = useState(false);
   const location = useLocation();
   const showHeaderPages = [
     "/",
@@ -34,7 +35,7 @@ function App() {
   //разметка
   return (
     <div className="app">
-      {!showHeader && <Preloader />}
+      {showPreloader && <Preloader />}
       {showHeader && <Header loggedIn={loggedIn} />}
       <Routes>
         <Route path="*" element={<PageNotFound />} />

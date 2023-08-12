@@ -1,6 +1,6 @@
 import "./AboutMe.css";
 import "../../blocks/link.css";
-import photo from "../../images/Barbie Tati.png";
+import photo from "../../images/Barbie Tati.jpg";
 
 function AboutMe() {
   return (

@@ -22,6 +22,10 @@
   outline: none;
 }
 
+.search__container .search__input:focus {
+  border-bottom: 1px solid #000;
+}
+
 .search__input:focus::placeholder {
   font-weight: 400;
   font-size: 24px;
@@ -38,11 +42,23 @@
 
 .search__btn {
   border-radius: 48px;
-  width: 58.65px;
+  width: 69px;
   height: 34px;
   font-feature-settings: "clig" off, "liga" off;
   font-size: 11px;
   font-style: normal;
   font-weight: 500;
   line-height: 18px; /* 163.636% */
+}
+
+@media screen and (max-width: 500px) {
+  .search__form {
+    padding: 82px 14px 47px;
+  }
+  .search__input::placeholder {
+    font-size: 18px;
+  }
+  .search__container {
+    margin-bottom: 41px;
+  }
 }
