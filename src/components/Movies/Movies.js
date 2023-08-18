@@ -2,43 +2,35 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import "./Movies.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
+// import { CurrentUserContext } from '../contexts/CurrentUserContext';
+// import { useContext } from "react";
 
-
-function Movies() {
-  const cards = [
-    <MoviesCard title="Бег это свобода" length="1ч 42м" buttonType="liked" />,
-    <MoviesCard
-      title="Бег это свобода"
-      length="1ч 42м"
-      buttonType="notLiked"
-    />,
-    <MoviesCard
-      title="Бег это свобода"
-      length="1ч 42м"
-      buttonType="notLiked"
-    />,
-    <MoviesCard
-      title="Бег это свобода"
-      length="1ч 42м"
-      buttonType="notLiked"
-    />,
-    <MoviesCard
-      title="Бег это свобода"
-      length="1ч 42м"
-      // buttonType="notLiked"
-    />,
-  ];
-           
-
+function Movies(props) {
+  // const currentUser = useContext(CurrentUserContext);
+  const cards = props.movies.map((card) => {
     return (
-      <section className="movies">
-        <SearchForm />
-        <MoviesCardList card={cards}/>
-        <button className="movies__btn-more button" type="button">
-          Ещё
-        </button>
-      </section>
+      <MoviesCard
+        key={card._id}
+        title={card.nameRU}
+        length={card.duration}
+        img={card.image.url}
+        buttonType='notLiked'
+        // setSelectedCard={props.setSelectedCard}
+        // onCardLike={props.onCardLike}
+        // onCardDelete={props.onCardDelete}
+      />
     );
+  });
+
+  return (
+    <section className="movies">
+      <SearchForm />
+      <MoviesCardList card={cards} />
+      <button className="movies__btn-more button" type="button">
+        Ещё
+      </button>
+    </section>
+  );
 }
 
 export default Movies;

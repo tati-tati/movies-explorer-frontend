@@ -1,6 +1,6 @@
 import AuthForm from "../AuthForm/AuthForm";
 
-function Register() {
+function Register(props) {
     return (
       <AuthForm
         title="Добро пожаловать!"
@@ -9,6 +9,7 @@ function Register() {
         pathText="Уже зарегистрированы?"
         path="/signin"
         pathBtn="Войти"
+        handleSubmit={props.handleRegisterSubmit}
       />
     );
 }
