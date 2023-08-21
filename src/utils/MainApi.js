@@ -29,6 +29,7 @@ export function logIn(email, password) {
     body: JSON.stringify({ email, password }),
   }).then(handleResponse);
 }
+//не работает
 
 export function logOut() {
   return fetch(`${BASE_URL}/signout`, {
@@ -37,12 +38,13 @@ export function logOut() {
     credentials : "include",
   }).then(handleResponse);
 }
+//не работает
 
-export function getInfoUser() {
+export function getCurrentUser() {
   return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
-    credentials : "include"
+  headers: { "Content-Type": "application/json" },
+  credentials : "include"
 
   }).then(handleResponse);
 }

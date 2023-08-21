@@ -6,4 +6,4 @@
 https://tati-tati.nomoredomains.xyz
 
 IP сервера
-158.160.116.79
+158.160.57.36

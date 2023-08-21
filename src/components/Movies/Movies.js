@@ -7,6 +7,14 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 
 function Movies(props) {
   // const currentUser = useContext(CurrentUserContext);
+
+  // function initialCards () {
+  //   const cards = props.movies;
+  //   for(let i=0; i <= 10; i++) {
+
+  //   }
+  // }
+  
   const cards = props.movies.map((card) => {
     return (
       <MoviesCard
@@ -21,6 +29,21 @@ function Movies(props) {
       />
     );
   });
+
+  function createCard(card) {
+    return (
+      <MoviesCard
+        key={card._id}
+        title={card.nameRU}
+        length={card.duration}
+        img={card.image.url}
+        buttonType='notLiked'
+        // setSelectedCard={props.setSelectedCard}
+        // onCardLike={props.onCardLike}
+        // onCardDelete={props.onCardDelete}
+      />
+    );
+  }
 
   return (
     <section className="movies">

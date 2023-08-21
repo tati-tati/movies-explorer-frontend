@@ -23,7 +23,7 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
 import { getInitialMovies } from "../../utils/MoviesApi.js";
 
-import { checkToken, logIn, logOut, register, getInfoUser } from "../../utils/MainApi";
+import { checkToken, logIn, logOut, register, getCurrentUser } from "../../utils/MainApi";
 
 function App() {
   // функции
@@ -49,42 +49,52 @@ function App() {
   const showFooterPages = ["/", "/movies", "/saved-movies"];
   const showFooter = showFooterPages.includes(location.pathname);
 
-  useEffect(() => {
-    checkToken()
-      .then((res) => {
-        if (res && typeof res === "object") {
-          setLoggedIn(true);
-          // console.log(res);
-          navigate("/", { replace: true });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+//   useEffect(() => {
+//     checkToken()
+//       .then((res) => {
+//         if (res && typeof res === "object") {
+//           setLoggedIn(true);
+//           // console.log(res);
+//           navigate("/movies", { replace: true });
+//         }
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//       });
   
-}, []);
+// }, []);
+
+  // useEffect(() => {
+  //   if (loggedIn) {
+  //     getInitialMovies()
+  //       .then((res) => {
+  //         console.log("getInitialMovies в useEffect из app.js",res);
+  //         setMovies(res);
+  //       })
+  //       .catch((err) => {
+  //         console.log(err); 
+  //       });
+
+  //   }
+  // }, [loggedIn]);
 
   useEffect(() => {
     if (loggedIn) {
-      getInitialMovies()
-        .then((res) => {
-          console.log(res);
-          setMovies(res);
-        })
-        .catch((err) => {
-          console.log(err); 
-        });
-
-      getInfoUser()
+      getCurrentUser()
       .then((res) => {
         console.log("getInfoUser работает", res)
         setCurrentUser(res);
       })
       .catch((err) => {
         console.log(err); 
-      });
-    }
+        console.log("getInfoUser НЕ работает")
+
+      });}
   }, [loggedIn]);
+
+
+  console.log("currentUser",currentUser);
+
 
   function handleRegisterSubmit({ name, email, password }) {
     // console.log(password, email);
@@ -114,6 +124,7 @@ function App() {
           // setUserEmail(email);
           navigate("/movies", { replace: true });
           localStorage.setItem("jwt", res.token);
+          console.log(res)
         }
       })
       .catch((err) => {
