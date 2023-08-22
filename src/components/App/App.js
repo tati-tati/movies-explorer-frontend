@@ -1,5 +1,5 @@
 // модули
-import { Route, Routes, useLocation, useNavigate} from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 //стиль
 import "./App.css";
@@ -23,13 +23,22 @@ import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 
 import { getInitialMovies } from "../../utils/MoviesApi.js";
 
-import { checkToken, logIn, logOut, register, getCurrentUser } from "../../utils/MainApi";
+import {
+  checkToken,
+  logIn,
+  logOut,
+  register,
+  getCurrentUser,
+  setUserInfo,
+} from "../../utils/MainApi";
 
 function App() {
   // функции
   const [loggedIn, setLoggedIn] = useState(false);
   const [showPreloader, setShowPreloader] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
+
+  const [width, setWidth] = useState(window.innerWidth);
 
   const [movies, setMovies] = useState([]);
 
@@ -49,52 +58,51 @@ function App() {
   const showFooterPages = ["/", "/movies", "/saved-movies"];
   const showFooter = showFooterPages.includes(location.pathname);
 
-//   useEffect(() => {
-//     checkToken()
-//       .then((res) => {
-//         if (res && typeof res === "object") {
-//           setLoggedIn(true);
-//           // console.log(res);
-//           navigate("/movies", { replace: true });
-//         }
-//       })
-//       .catch((err) => {
-//         console.log(err);
-//       });
-  
-// }, []);
+  useEffect(() => {
+    checkToken()
+      .then((res) => {
+        if (res && typeof res === "object") {
+          setLoggedIn(true);
+          // console.log(res);
+          navigate("/movies", { replace: true });
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+    useEffect(() => {
+      window.addEventListener("resize", () => setWidth(window.innerWidth));
+      return () =>
+        window.addEventListener("resize", () => setWidth(window.innerWidth));
+    }, []);
 
   // useEffect(() => {
   //   if (loggedIn) {
   //     getInitialMovies()
   //       .then((res) => {
-  //         console.log("getInitialMovies в useEffect из app.js",res);
+  //         console.log("getInitialMovies в useEffect из app.js", res);
+
   //         setMovies(res);
   //       })
   //       .catch((err) => {
-  //         console.log(err); 
+  //         console.log(err);
   //       });
-
   //   }
   // }, [loggedIn]);
 
   useEffect(() => {
     if (loggedIn) {
       getCurrentUser()
-      .then((res) => {
-        console.log("getInfoUser работает", res)
-        setCurrentUser(res);
-      })
-      .catch((err) => {
-        console.log(err); 
-        console.log("getInfoUser НЕ работает")
-
-      });}
+        .then((res) => {
+          setCurrentUser(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [loggedIn]);
-
-
-  console.log("currentUser",currentUser);
-
 
   function handleRegisterSubmit({ name, email, password }) {
     // console.log(password, email);
@@ -115,16 +123,16 @@ function App() {
       });
   }
 
-  function handleLogInSubmit({ email,password }) {
+  function handleLogInSubmit({ email, password }) {
     setShowPreloader(true);
-    logIn(email,password)
+    logIn(email, password)
       .then((res) => {
         if (res !== false) {
           setLoggedIn(true);
           // setUserEmail(email);
           navigate("/movies", { replace: true });
           localStorage.setItem("jwt", res.token);
-          console.log(res)
+          console.log(res);
         }
       })
       .catch((err) => {
@@ -137,31 +145,55 @@ function App() {
   }
 
   function handleExit() {
-    // setUserEmail("");
+    console.log("нажат выход из аккаунта");
+
     logOut()
-    .then()
-    .catch((err) => {
-      console.log(err);
-    });
+      .then((res) => {
+        console.log("then выход из аккаунта", res);
+        setLoggedIn(false);
+        navigate("/", { replace: true });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
+
+    function handleUpdateUser(user) {
+      console.log("handleUpdateUser", user);
+
+      setUserInfo(user)
+        .then((res) => {
+          setCurrentUser(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
 
   //разметка
   return (
     <div className="app">
       <CurrentUserContext.Provider value={currentUser}>
         {showPreloader && <Preloader />}
-        {showHeader && <Header loggedIn={loggedIn} />}
+        {showHeader && <Header loggedIn={loggedIn} width={width} />}
         <Routes>
           <Route path="*" element={<PageNotFound />} />
           <Route path="/" element={<Main />} />
-          <Route path="/signup" element={<Register handleRegisterSubmit={handleRegisterSubmit} />} />
-          <Route path="/signin" element={<Login handleLogInSubmit={handleLogInSubmit} />} />
+          <Route
+            path="/signup"
+            element={<Register handleRegisterSubmit={handleRegisterSubmit} />}
+          />
+          <Route
+            path="/signin"
+            element={<Login handleLogInSubmit={handleLogInSubmit} />}
+          />
           <Route
             path="/movies"
             element={
               <ProtectedRouteElement
                 element={Movies}
                 movies={movies}
+                setMovies={setMovies}
                 loggedIn={loggedIn}
               />
             }
@@ -179,7 +211,11 @@ function App() {
           <Route
             path="/profile"
             element={
-              <ProtectedRouteElement element={Profile} handleExit={handleExit} loggedIn={loggedIn} />
+              <ProtectedRouteElement
+                element={Profile}
+                handleExit={handleExit}
+                loggedIn={loggedIn}
+              />
             }
           />
           <Route
@@ -188,6 +224,7 @@ function App() {
               <ProtectedRouteElement
                 element={ProfileEdit}
                 loggedIn={loggedIn}
+                onUpdateUser={handleUpdateUser}
               />
             }
           />

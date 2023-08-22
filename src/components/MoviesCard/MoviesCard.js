@@ -32,11 +32,13 @@ function MoviesCard(props) {
           />
         )}
       </div>
-      <img
-        className="card__image"
-        src={`${IMG_BASE_URL}${props.img}`}
-        alt={`обложка фильма ${props.title}`}
-      />
+      <a className="card__trailer-link" href={props.trailer} target="_blank">
+        <img
+          className="card__image"
+          src={`${IMG_BASE_URL}${props.img}`}
+          alt={`обложка фильма ${props.title}`}
+        />
+      </a>
     </div>
   );
 }

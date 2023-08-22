@@ -1,5 +1,5 @@
-// const BASE_URL = "http://localhost:3000";
-import { BASE_URL } from "./constants"
+const BASE_URL = "http://localhost:3000";
+// import { BASE_URL } from "./constants"
 
 function handleResponse(res) {
   // console.log('auth api', res);
@@ -38,7 +38,6 @@ export function logOut() {
     credentials : "include",
   }).then(handleResponse);
 }
-//не работает
 
 export function getCurrentUser() {
   return fetch(`${BASE_URL}/users/me`, {

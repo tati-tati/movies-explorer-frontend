@@ -7,7 +7,7 @@ import Menu from "../Menu/Menu.js";
 import { useEffect, useState } from "react";
 
 function Header(props) {
-  const [width, setWidth] = useState(window.innerWidth);
+  // const [width, setWidth] = useState(window.innerWidth);
   const [openMenu, setOpenMenu] = useState(false);
   const [mainPage, setMainPage] = useState(false);
 
@@ -38,11 +38,11 @@ function Header(props) {
     main: "Главная",
   };
 
-  useEffect(() => {
-    window.addEventListener("resize", () => setWidth(window.innerWidth));
-    return () =>
-      window.addEventListener("resize", () => setWidth(window.innerWidth));
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("resize", () => setWidth(window.innerWidth));
+  //   return () =>
+  //     window.addEventListener("resize", () => setWidth(window.innerWidth));
+  // }, []);
 
   return (
     <header className={`header ${mainPage ? "header_pink" : ""}`}>
@@ -50,7 +50,7 @@ function Header(props) {
         <img className="header__logo" src={logo} alt="логотип приложения" />
       </Link>
       {props.loggedIn ? (
-        width > 770 ? (
+        props.width > 770 ? (
           <div className="header__container">
             <NavLink to="/movies" className="header__profile-link link">
               {buttonText.movies}
@@ -73,7 +73,7 @@ function Header(props) {
               onClick={handleOpenMenu}
             />
             {openMenu && (
-              <Menu width={width} handleCloseMenu={handleCloseMenu} />
+              <Menu width={props.width} handleCloseMenu={handleCloseMenu} />
             )}
           </>
         )
@@ -82,7 +82,7 @@ function Header(props) {
           <NavLink to="/signup" className="header__link link">
             {buttonText.register}
           </NavLink>
-          <NavLink to="/signup" className="header__btn button">
+          <NavLink to="/signin" className="header__btn button">
             {buttonText.enter}
           </NavLink>
         </div>
