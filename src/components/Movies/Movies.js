@@ -2,29 +2,23 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import "./Movies.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useContext } from "react";
-import { getInitialMovies } from "../../utils/MoviesApi";
+import { DESKTOP_CARDS, MOBILE_CARDS } from "../../utils/constants";
 
 function Movies(props) {
   const [queryMovies, setQueryMovies] = useState("");
   const [isShort, setIsShort] = useState(false);
+  const [counter, setCounter] = useState(0);
 
   const currentUser = useContext(CurrentUserContext);
 
-  // getInitialMovies()
-  //   .then((res) => {
-  //     console.log("getInitialMovies", res);
-
-  //     props.setMovies(res);
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //   });
-
   let filteredMovies = props.movies.filter((movie) => {
-    return movie.nameRU.toLowerCase().includes(queryMovies.toLowerCase());
+    return (
+      movie.nameEN.toLowerCase().includes(queryMovies.toLowerCase()) ||
+      movie.nameRU.toLowerCase().includes(queryMovies.toLowerCase())
+    );
   });
 
   if (isShort) {
@@ -32,11 +26,24 @@ function Movies(props) {
       return movie.duration < 40;
     });
   }
-  console.log(filteredMovies.length);
-  
-  const cards = filteredMovies.map((card) => {
-    return createCard(card);
-  });
+  // console.log(filteredMovies.length);
+
+  let cards;
+  // function showCards() {
+  if (props.width < 500) {
+    cards = filteredMovies.slice(0, MOBILE_CARDS + counter).map((card) => {
+      return createCard(card);
+    });
+  } else {
+    cards = filteredMovies.slice(0, DESKTOP_CARDS + counter).map((card) => {
+      return createCard(card);
+    });
+  }
+  // }
+
+  function handleCounter() {
+    setCounter(counter + 1);
+  }
 
   function createCard(card) {
     return (
@@ -60,11 +67,28 @@ function Movies(props) {
         setQuery={setQueryMovies}
         setIsShort={setIsShort}
         isShort={isShort}
+        setCounter={setCounter}
       />
       <MoviesCardList card={cards} />
-      <button className="movies__btn-more button" type="button">
-        Ещё
-      </button>
+      {props.width < 500
+        ? filteredMovies.length > MOBILE_CARDS + counter && (
+            <button
+              className="movies__btn-more button"
+              type="button"
+              onClick={handleCounter}
+            >
+              Ещё
+            </button>
+          )
+        : filteredMovies.length > DESKTOP_CARDS + counter && (
+            <button
+              className="movies__btn-more button"
+              type="button"
+              onClick={handleCounter}
+            >
+              Ещё
+            </button>
+          )}
     </section>
   );
 }

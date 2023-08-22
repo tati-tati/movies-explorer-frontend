@@ -40,7 +40,9 @@ function App() {
 
   const [width, setWidth] = useState(window.innerWidth);
 
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(
+    JSON.parse(localStorage.getItem("films")) || []
+  );
 
   const [message, setMessage] = useState("");
 
@@ -64,7 +66,7 @@ function App() {
         if (res && typeof res === "object") {
           setLoggedIn(true);
           // console.log(res);
-          navigate("/movies", { replace: true });
+          // navigate("/movies", { replace: true });
         }
       })
       .catch((err) => {
@@ -72,25 +74,25 @@ function App() {
       });
   }, []);
 
-    useEffect(() => {
+  useEffect(() => {
+    window.addEventListener("resize", () => setWidth(window.innerWidth));
+    return () =>
       window.addEventListener("resize", () => setWidth(window.innerWidth));
-      return () =>
-        window.addEventListener("resize", () => setWidth(window.innerWidth));
-    }, []);
+  }, []);
 
-  // useEffect(() => {
-  //   if (loggedIn) {
-  //     getInitialMovies()
-  //       .then((res) => {
-  //         console.log("getInitialMovies в useEffect из app.js", res);
-
-  //         setMovies(res);
-  //       })
-  //       .catch((err) => {
-  //         console.log(err);
-  //       });
-  //   }
-  // }, [loggedIn]);
+  useEffect(() => {
+    if (movies.length === 0) {
+      getInitialMovies()
+        .then((res) => {
+          console.log("getInitialMovies в useEffect из app.js", res);
+          localStorage.setItem("films", JSON.stringify(res));
+          setMovies(res);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
+  }, [loggedIn]);
 
   useEffect(() => {
     if (loggedIn) {
@@ -158,17 +160,17 @@ function App() {
       });
   }
 
-    function handleUpdateUser(user) {
-      console.log("handleUpdateUser", user);
+  function handleUpdateUser(user) {
+    console.log("handleUpdateUser", user);
 
-      setUserInfo(user)
-        .then((res) => {
-          setCurrentUser(res);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
+    setUserInfo(user)
+      .then((res) => {
+        setCurrentUser(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
 
   //разметка
   return (
@@ -195,6 +197,7 @@ function App() {
                 movies={movies}
                 setMovies={setMovies}
                 loggedIn={loggedIn}
+                width={width}
               />
             }
           />

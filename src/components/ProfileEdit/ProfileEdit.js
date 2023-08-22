@@ -3,26 +3,24 @@ import "./ProfileEdit.css";
 import { useContext, useState } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
-
 function ProfileEdit(props) {
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
 
-    const currentUser = useContext(CurrentUserContext);
+  const currentUser = useContext(CurrentUserContext);
 
-     function handleChangeName(evt) {
-       setName(evt.target.value);
-     }
+  function handleChangeName(evt) {
+    setName(evt.target.value);
+  }
 
-     function handleChangeEmail(evt) {
-       setEmail(evt.target.value);
-     }
+  function handleChangeEmail(evt) {
+    setEmail(evt.target.value);
+  }
 
-
-      function handleSubmit(evt) {
-        evt.preventDefault();
-        props.onUpdateUser({ name, email });
-      }
+  function handleSubmit(evt) {
+    evt.preventDefault();
+    props.onUpdateUser({ name, email });
+  }
 
   return (
     <form className="profile-edit__form" name="profile" onSubmit={handleSubmit}>

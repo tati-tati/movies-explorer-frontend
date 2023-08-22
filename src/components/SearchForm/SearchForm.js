@@ -9,9 +9,9 @@ function SearchForm(props) {
   function handleSubmit(evt) {
   evt.preventDefault();
    props.setQuery(input);
-   console.log(input);
-
+   props.setCounter(0);
   }
+
   function handleInput(evt) {
      setInput(evt.target.value);
   }
