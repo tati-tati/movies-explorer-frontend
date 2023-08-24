@@ -13,8 +13,16 @@ function MoviesCard(props) {
     return `${hours}ч ${minutes}м`;
   }
 
+  function handleLike() {
+    console.log(props.card);
+    props.onLike(props.card);
+  }
+
+  function handleDeleteClick() {
+    props.onMovieDelete(props.id);
+  }
   return (
-    <div className="card" key={props.key}>
+    <div className="card">
       <div className="card__info">
         <h2 className="card__title">{props.title}</h2>
         <p className="card__length">{countLength()}</p>
@@ -24,18 +32,27 @@ function MoviesCard(props) {
             type="button"
           />
         ) : props.buttonType === "notLiked" ? (
-          <button className="card__like button" type="button" />
+          <button
+            className="card__like button"
+            type="button"
+            onClick={handleLike}
+          />
         ) : (
           <button
             className="card__like card__btn-remove button"
             type="button"
+            onClick={handleDeleteClick}
           />
         )}
       </div>
       <a className="card__trailer-link" href={props.trailer} target="_blank">
         <img
           className="card__image"
-          src={`${IMG_BASE_URL}${props.img}`}
+          src={
+            props.buttonType === "notLiked" && "liked"
+              ? `${IMG_BASE_URL}${props.img}`
+              : props.img
+          }
           alt={`обложка фильма ${props.title}`}
         />
       </a>

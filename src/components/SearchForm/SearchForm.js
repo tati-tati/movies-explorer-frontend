@@ -4,10 +4,10 @@ import "../../blocks/button.css";
 import { useState } from "react";
 
 function SearchForm(props) {
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState(props.queryMovies);
 
   function handleSubmit(evt) {
-  evt.preventDefault();
+   evt.preventDefault();
    props.setQuery(input);
    props.setCounter(0);
   }
@@ -22,6 +22,7 @@ function SearchForm(props) {
             className="search__input"
             placeholder="Фильм"
             onChange={handleInput}
+            value={input}
           ></input>
           <button className="search__btn button" type="submit">
             Найти

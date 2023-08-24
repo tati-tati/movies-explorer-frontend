@@ -4,10 +4,11 @@ import { useContext, useState } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 function ProfileEdit(props) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+    const currentUser = useContext(CurrentUserContext);
 
-  const currentUser = useContext(CurrentUserContext);
+  const [name, setName] = useState(currentUser.name);
+  const [email, setEmail] = useState(currentUser.email);
+
 
   function handleChangeName(evt) {
     setName(evt.target.value);
@@ -31,7 +32,7 @@ function ProfileEdit(props) {
           className="profile-edit__input"
           placeholder="Name"
           type="text"
-          defaultValue={currentUser.name}
+          value={name}
           onChange={handleChangeName}
         />
       </label>
@@ -42,7 +43,7 @@ function ProfileEdit(props) {
           placeholder="email"
           type="email"
           onChange={handleChangeEmail}
-          defaultValue={currentUser.email}
+          value={email}
         />
       </label>
       <span className="profile-edit__error-span">

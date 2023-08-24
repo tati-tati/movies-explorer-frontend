@@ -30,6 +30,9 @@ import {
   register,
   getCurrentUser,
   setUserInfo,
+  getSavedMovies,
+  deleteSavedMovie,
+  saveMovie,
 } from "../../utils/MainApi";
 
 function App() {
@@ -41,10 +44,13 @@ function App() {
   const [width, setWidth] = useState(window.innerWidth);
 
   const [movies, setMovies] = useState(
-    JSON.parse(localStorage.getItem("films")) || []
+    // JSON.parse(localStorage.getItem("films"))
+    []
   );
+  const [savedMovies, setSavedMovies] = useState("");
 
   const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState(false);
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -74,24 +80,56 @@ function App() {
       });
   }, []);
 
+  let resizeTimer;
   useEffect(() => {
-    window.addEventListener("resize", () => setWidth(window.innerWidth));
-    return () =>
-      window.addEventListener("resize", () => setWidth(window.innerWidth));
+    window.addEventListener("resize", () => {
+      resizeTimer = setTimeout(setWidth(window.innerWidth), 1000);
+    });
+    return () => {
+      window.addEventListener("resize", () => {
+        setWidth(window.innerWidth);
+        clearTimeout(resizeTimer);
+      });
+    };
   }, []);
 
   useEffect(() => {
-    if (movies.length === 0) {
-      getInitialMovies()
-        .then((res) => {
-          console.log("getInitialMovies в useEffect из app.js", res);
-          localStorage.setItem("films", JSON.stringify(res));
-          setMovies(res);
-        })
-        .catch((err) => {
-          console.log(err);
+    // if (movies.length === 0) {
+    setShowPreloader(true);
+    getInitialMovies()
+      .then((res) => {
+        // console.log("getInitialMovies в useEffect из app.js", res);
+        // localStorage.setItem("films", JSON.stringify(res));
+        const result = res.map((item) => {
+          return { ...item, class: "notLiked" };
         });
-    }
+        setMovies(result);
+        setErrorMessage(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrorMessage(true);
+      })
+      .finally(() => {
+        setShowPreloader(false);
+      });
+    // }
+  }, [loggedIn]);
+
+  useEffect(() => {
+    setShowPreloader(true);
+    getSavedMovies()
+      .then((res) => {
+        setSavedMovies(res);
+        setErrorMessage(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setErrorMessage(true);
+      })
+      .finally(() => {
+        setShowPreloader(false);
+      });
   }, [loggedIn]);
 
   useEffect(() => {
@@ -148,11 +186,13 @@ function App() {
 
   function handleExit() {
     console.log("нажат выход из аккаунта");
-
     logOut()
       .then((res) => {
         console.log("then выход из аккаунта", res);
         setLoggedIn(false);
+        localStorage.removeItem("isShort");
+        localStorage.removeItem("query");
+
         navigate("/", { replace: true });
       })
       .catch((err) => {
@@ -166,6 +206,28 @@ function App() {
     setUserInfo(user)
       .then((res) => {
         setCurrentUser(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleSavedMovieDelete(movieID) {
+    deleteSavedMovie(movieID)
+      .then(() => {
+        setSavedMovies((savedMovies) =>
+          savedMovies.filter((c) => (c._id === movieID ? "" : c))
+        );
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }
+
+  function handleMovieLike(movie) {
+    saveMovie(movie)
+      .then((newMovie) => {
+        setSavedMovies([newMovie, ...savedMovies]);
       })
       .catch((err) => {
         console.log(err);
@@ -198,6 +260,8 @@ function App() {
                 setMovies={setMovies}
                 loggedIn={loggedIn}
                 width={width}
+                errorMessage={errorMessage}
+                onLike={handleMovieLike}
               />
             }
           />
@@ -206,7 +270,8 @@ function App() {
             element={
               <ProtectedRouteElement
                 element={SavedMovies}
-                movies={movies}
+                savedMovies={savedMovies}
+                onMovieDelete={handleSavedMovieDelete}
                 loggedIn={loggedIn}
               />
             }

@@ -2,17 +2,31 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import "./Movies.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { useContext } from "react";
 import { DESKTOP_CARDS, MOBILE_CARDS } from "../../utils/constants";
 
 function Movies(props) {
-  const [queryMovies, setQueryMovies] = useState("");
-  const [isShort, setIsShort] = useState(false);
+  const [queryMovies, setQueryMovies] = useState(() => {
+    const isLocalStorageFull = localStorage.getItem("query");
+    return isLocalStorageFull ? isLocalStorageFull : "";
+  });
+  const [isShort, setIsShort] = useState(() => {
+    const isLocalStorageFull = localStorage.getItem("isShort");
+    return isLocalStorageFull ? JSON.parse(isLocalStorageFull) : false;
+  });
   const [counter, setCounter] = useState(0);
 
   const currentUser = useContext(CurrentUserContext);
+
+  useEffect(() => {
+    localStorage.setItem("query", queryMovies);
+  }, [queryMovies]);
+
+  useEffect(() => {
+    localStorage.setItem("isShort", JSON.stringify(isShort));
+  }, [isShort]);
 
   let filteredMovies = props.movies.filter((movie) => {
     return (
@@ -48,14 +62,15 @@ function Movies(props) {
   function createCard(card) {
     return (
       <MoviesCard
-        key={card._id}
+        key={card.id}
+        card={card}
         title={card.nameRU}
         length={card.duration}
         img={card.image.url}
         trailer={card.trailerLink}
-        buttonType="notLiked"
+        buttonType={card.class}
         // setSelectedCard={props.setSelectedCard}
-        // onCardLike={props.onCardLike}
+        onLike={props.onLike}
         // onCardDelete={props.onCardDelete}
       />
     );
@@ -65,11 +80,13 @@ function Movies(props) {
     <section className="movies">
       <SearchForm
         setQuery={setQueryMovies}
+        queryMovies={queryMovies}
         setIsShort={setIsShort}
         isShort={isShort}
         setCounter={setCounter}
       />
-      <MoviesCardList card={cards} />
+
+      <MoviesCardList card={cards} errorMessage={props.errorMessage} />
       {props.width < 500
         ? filteredMovies.length > MOBILE_CARDS + counter && (
             <button
