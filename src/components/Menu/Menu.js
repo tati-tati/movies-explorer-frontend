@@ -15,16 +15,32 @@ function Menu(props) {
               type="button"
               onClick={props.handleCloseMenu}
             />
-            <NavLink to="/" className="menu__btn link">
+            <NavLink
+              to="/"
+              className="menu__btn link"
+              onClick={props.handleCloseMenu}
+            >
               Главная
             </NavLink>
-            <NavLink to="/movies" className="menu__btn link">
+            <NavLink
+              to="/movies"
+              className="menu__btn link"
+              onClick={props.handleCloseMenu}
+            >
               Фильмы
             </NavLink>
-            <NavLink to="/saved-movies" className="menu__btn link">
+            <NavLink
+              to="/saved-movies"
+              className="menu__btn link"
+              onClick={props.handleCloseMenu}
+            >
               Сохраненные фильмы
             </NavLink>
-            <NavLink to="/profile" className="menu__btn-account link">
+            <NavLink
+              to="/profile"
+              className="menu__btn-account link"
+              onClick={props.handleCloseMenu}
+            >
               Аккаунт
             </NavLink>
           </div>

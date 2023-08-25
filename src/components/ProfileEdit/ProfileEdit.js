@@ -1,13 +1,28 @@
 import "./ProfileEdit.css";
 
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import { Validation, checkError } from "../Validation/validation";
+import { useSearchParams } from "react-router-dom";
 
 function ProfileEdit(props) {
-  const { register, handleSubmit, isValid } = Validation();
-
+  const { register, watch, setValue, errors, handleSubmit, isValid } =
+    Validation();
+  const [formIsChanged, setFormIsChanged] = useState(false);
   const currentUser = useContext(CurrentUserContext);
+  
+  useEffect(() => {
+    if(currentUser) {
+      setValue('name', currentUser.name);
+      setValue("email", currentUser.email)
+    }
+  }, [currentUser, setValue]);
+
+  useEffect(() => {
+    const isNameChanged = currentUser.name !== watch("name");
+    const isEmailChanged = currentUser.email !== watch("email");
+    setFormIsChanged(isNameChanged || isEmailChanged);
+  }, [watch("name"), watch("email")]);
 
   function handleSubmitForm(data) {
     // evt.preventDefault();
@@ -49,7 +64,7 @@ function ProfileEdit(props) {
       <button
         className="profile-edit__btn-submit button"
         type="submit"
-        disabled={!isValid}
+        disabled={!isValid || !formIsChanged}
       >
         Сохранить
       </button>

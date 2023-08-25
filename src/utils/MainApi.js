@@ -1,15 +1,16 @@
-import { 
-  IMG_BASE_URL, 
-  BASE_URL 
-} from "./constants";
+import { IMG_BASE_URL, BASE_URL } from "./constants";
 // const BASE_URL = "http://localhost:3000";
 
 function handleResponse(res) {
-  if (res.ok) {
-    return res.json();
-  } else {
-    return Promise.reject(`Error! : ${res.status}`);
+  if (!res.ok) {
+    return res.json().then((data) => {
+      return Promise.reject({
+        status: `Error! : ${res.status}`,
+        message: data.message,
+      });
+    });
   }
+  return res.json();
 }
 
 export function register(name, email, password) {

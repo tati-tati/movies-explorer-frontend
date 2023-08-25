@@ -35,6 +35,7 @@ import {
 function App() {
   //стейты
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isTokenChecked, setIsTokenChecked] = useState(false);
   const [showPreloader, setShowPreloader] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [width, setWidth] = useState(window.innerWidth);
@@ -56,20 +57,27 @@ function App() {
   const showHeader = showHeaderPages.includes(location.pathname);
   const showFooterPages = ["/", "/movies", "/saved-movies"];
   const showFooter = showFooterPages.includes(location.pathname);
-  
-//эффекты
+
+  //эффекты
   useEffect(() => {
-    checkToken()
-      .then((res) => {
-        if (res && typeof res === "object") {
-          setLoggedIn(true);
-          setMessage("");
-          navigate("/movies", { replace: true });
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (!loggedIn) {
+      setShowPreloader(true);
+      checkToken()
+        .then((res) => {
+          if (res && typeof res === "object") {
+            setLoggedIn(true);
+            setMessage("");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          setMessage(err.message);
+        })
+        .finally(() => {
+          setIsTokenChecked(true);
+          setShowPreloader(false);
+        });
+    }
   }, []);
 
   let resizeTimer;
@@ -86,35 +94,37 @@ function App() {
   }, []);
 
   useEffect(() => {
-    setShowPreloader(true);
-    setMessage("");
-    Promise.all([getInitialMovies(), getSavedMovies()])
-      .then((res) => {
-        const movies = res[0];
-        const savedMovies = res[1];
-        const resultMovies = movies.map((item) => {
-          const movieSaved = savedMovies.find((saved) => {
-            return saved.movieId === item.id;
+    if (loggedIn) {
+      setShowPreloader(true);
+      Promise.all([getInitialMovies(), getSavedMovies()])
+        .then((res) => {
+          const movies = res[0];
+          const savedMovies = res[1];
+          const resultMovies = movies.map((item) => {
+            const movieSaved = savedMovies.find((saved) => {
+              return saved.movieId === item.id;
+            });
+            if (movieSaved) {
+              return { ...item, class: "liked" };
+            }
+            return { ...item, class: "notLiked" };
           });
-          if (movieSaved) {
-            return { ...item, class: "liked" };
-          }
-          return { ...item, class: "notLiked" };
+          const resultSavedMovies = savedMovies.map((item) => {
+            return { ...item, class: "remove" };
+          });
+          setMovies(resultMovies);
+          setSavedMovies(resultSavedMovies);
+          setErrorMessage(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          setMessage(err.message);
+          setErrorMessage(true);
+        })
+        .finally(() => {
+          setShowPreloader(false);
         });
-        const resultSavedMovies = savedMovies.map((item) => {
-          return { ...item, class: "remove" };
-        });
-        setMovies(resultMovies);
-        setSavedMovies(resultSavedMovies);
-        setErrorMessage(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setErrorMessage(true);
-      })
-      .finally(() => {
-        setShowPreloader(false);
-      });
+    }
   }, [loggedIn]);
 
   useEffect(() => {
@@ -129,7 +139,13 @@ function App() {
     }
   }, [loggedIn]);
 
-//функции обращения к апи
+  useEffect(() => {
+    if (location.pathname !== "/profile") {
+      setMessage("");
+    }
+  }, [navigate]);
+
+  //функции обращения к апи
   function handleRegisterSubmit({ name, email, password }) {
     setShowPreloader(true);
     register(name, email, password)
@@ -140,12 +156,8 @@ function App() {
         }
       })
       .catch((err) => {
-        console.log(err);
-        if (err === "409") {
-          setMessage("Пользователь с таким email уже существует.");
-        } else {
-          setMessage("При регистрации пользователя произошла ошибка.");
-        }
+        console.log(err.status);
+        setMessage(err.message);
       })
       .finally(() => {
         setShowPreloader(false);
@@ -165,7 +177,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Вы ввели неправильный логин или пароль.");
+        setMessage(err.message);
       })
       .finally(() => {
         setShowPreloader(false);
@@ -174,7 +186,7 @@ function App() {
 
   function handleExit() {
     logOut()
-      .then((res) => {
+      .then(() => {
         setLoggedIn(false);
         localStorage.removeItem("isShort");
         localStorage.removeItem("query");
@@ -192,10 +204,11 @@ function App() {
       .then((res) => {
         setCurrentUser(res);
         setMessage("Данные профиля успешно изменены.");
+        navigate("/profile", { replace: true });
       })
       .catch((err) => {
         console.log(err);
-        setMessage("При обновлении профиля произошла ошибка.");
+        setMessage(err.message);
       });
   }
 
@@ -238,76 +251,83 @@ function App() {
   //разметка
   return (
     <div className="app">
-      <CurrentUserContext.Provider value={currentUser}>
-        {showPreloader && <Preloader />}
-        {showHeader && <Header loggedIn={loggedIn} width={width} />}
-        <Routes>
-          <Route path="*" element={<PageNotFound />} />
-          <Route path="/" element={<Main />} />
-          <Route
-            path="/signup"
-            element={
-              <Register
-                handleRegisterSubmit={handleRegisterSubmit}
-                message={message}
-              />
-            }
-          />
-          <Route
-            path="/signin"
-            element={
-              <Login handleLogInSubmit={handleLogInSubmit} message={message} />
-            }
-          />
-          <Route
-            path="/movies"
-            element={
-              <ProtectedRouteElement
-                element={Movies}
-                movies={movies}
-                setMovies={setMovies}
-                loggedIn={loggedIn}
-                width={width}
-                errorMessage={errorMessage}
-                onLike={handleMovieLike}
-                onMovieDelete={handleSavedMovieDelete}
-              />
-            }
-          />
-          <Route
-            path="/saved-movies"
-            element={
-              <ProtectedRouteElement
-                element={SavedMovies}
-                savedMovies={savedMovies}
-                onMovieDelete={handleSavedMovieDelete}
-                loggedIn={loggedIn}
-              />
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRouteElement
-                element={Profile}
-                handleExit={handleExit}
-                loggedIn={loggedIn}
-              />
-            }
-          />
-          <Route
-            path="/edit"
-            element={
-              <ProtectedRouteElement
-                element={ProfileEdit}
-                loggedIn={loggedIn}
-                onUpdateUser={handleUpdateUser}
-              />
-            }
-          />
-        </Routes>
-        {showFooter && <Footer />}
-      </CurrentUserContext.Provider>
+      {isTokenChecked ? (
+        <CurrentUserContext.Provider value={currentUser}>
+          {showHeader && <Header loggedIn={loggedIn} width={width} />}
+          <Routes>
+            <Route path="*" element={<PageNotFound />} />
+            <Route path="/" element={<Main />} />
+            <Route
+              path="/signup"
+              element={
+                <Register
+                  handleRegisterSubmit={handleRegisterSubmit}
+                  message={message}
+                />
+              }
+            />
+            <Route
+              path="/signin"
+              element={
+                <Login
+                  handleLogInSubmit={handleLogInSubmit}
+                  message={message}
+                />
+              }
+            />
+            <Route
+              path="/movies"
+              element={
+                <ProtectedRouteElement
+                  element={Movies}
+                  movies={movies}
+                  setMovies={setMovies}
+                  loggedIn={loggedIn}
+                  width={width}
+                  errorMessage={errorMessage}
+                  onLike={handleMovieLike}
+                  onMovieDelete={handleSavedMovieDelete}
+                />
+              }
+            />
+            <Route
+              path="/saved-movies"
+              element={
+                <ProtectedRouteElement
+                  element={SavedMovies}
+                  savedMovies={savedMovies}
+                  onMovieDelete={handleSavedMovieDelete}
+                  loggedIn={loggedIn}
+                />
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <ProtectedRouteElement
+                  element={Profile}
+                  handleExit={handleExit}
+                  loggedIn={loggedIn}
+                  message={message}
+                />
+              }
+            />
+            <Route
+              path="/edit"
+              element={
+                <ProtectedRouteElement
+                  element={ProfileEdit}
+                  loggedIn={loggedIn}
+                  onUpdateUser={handleUpdateUser}
+                />
+              }
+            />
+          </Routes>
+          {showFooter && <Footer />}
+        </CurrentUserContext.Provider>
+      ) : (
+        showPreloader && <Preloader />
+      )}
     </div>
   );
 }

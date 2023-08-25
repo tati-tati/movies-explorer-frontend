@@ -19,10 +19,15 @@ function Profile(props) {
         E-mail
         <p className="profile__info-value">{currentUser.email}</p>
       </h3>
+      <span className="profile__span">{props.message}</span>
       <NavLink to="/edit" className="profile__btn-edit link">
         Редактировать
       </NavLink>
-      <button className="profile__btn-exit link" type="button" onClick={props.handleExit}>
+      <button
+        className="profile__btn-exit link"
+        type="button"
+        onClick={props.handleExit}
+      >
         Выйти из аккаунта
       </button>
     </section>

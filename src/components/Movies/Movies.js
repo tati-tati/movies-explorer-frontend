@@ -3,7 +3,11 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { useEffect, useState } from "react";
-import { DESKTOP_CARDS, MOBILE_CARDS } from "../../utils/constants";
+import {
+  DESKTOP_CARDS,
+  LAPTOP_CARDS,
+  MOBILE_CARDS,
+} from "../../utils/constants";
 
 function Movies(props) {
   const [queryMovies, setQueryMovies] = useState(() => {
@@ -42,6 +46,10 @@ function Movies(props) {
     cards = filteredMovies.slice(0, MOBILE_CARDS + counter).map((card) => {
       return createCard(card);
     });
+  } else if (props.width < 960) {
+    cards = filteredMovies.slice(0, LAPTOP_CARDS + counter).map((card) => {
+      return createCard(card);
+    });
   } else {
     cards = filteredMovies.slice(0, DESKTOP_CARDS + counter).map((card) => {
       return createCard(card);
@@ -49,7 +57,13 @@ function Movies(props) {
   }
 
   function handleCounter() {
-    setCounter(counter + 1);
+    if (props.width < 500) {
+      setCounter(counter + 1);
+    } else if (props.width < 960) {
+      setCounter(counter + 2);
+    } else {
+      setCounter(counter + 3);
+    }
   }
 
   function createCard(card) {
