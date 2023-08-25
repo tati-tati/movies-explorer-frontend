@@ -1,13 +1,13 @@
-import { NavLink, Link, useLocation } from "react-router-dom";
 import logo from "../../images/logo.svg";
 import "./Header.css";
 import "../../blocks/link.css";
 import "../../blocks/button.css";
 import Menu from "../Menu/Menu.js";
 import { useEffect, useState } from "react";
+import { NavLink, Link, useLocation } from "react-router-dom";
+import { BUTTON_TEXT } from "../../utils/constants";
 
 function Header(props) {
-  // const [width, setWidth] = useState(window.innerWidth);
   const [openMenu, setOpenMenu] = useState(false);
   const [mainPage, setMainPage] = useState(false);
 
@@ -29,21 +29,6 @@ function Header(props) {
     setOpenMenu(false);
   }
 
-  const buttonText = {
-    enter: "Войти",
-    register: "Регистрация",
-    movies: "Фильмы",
-    savedMovies: "Сохранённые фильмы",
-    profile: "Аккаунт",
-    main: "Главная",
-  };
-
-  // useEffect(() => {
-  //   window.addEventListener("resize", () => setWidth(window.innerWidth));
-  //   return () =>
-  //     window.addEventListener("resize", () => setWidth(window.innerWidth));
-  // }, []);
-
   return (
     <header className={`header ${mainPage ? "header_pink" : ""}`}>
       <Link to="/" className="header__logo-link">
@@ -53,16 +38,16 @@ function Header(props) {
         props.width > 770 ? (
           <div className="header__container">
             <NavLink to="/movies" className="header__profile-link link">
-              {buttonText.movies}
+              {BUTTON_TEXT.movies}
             </NavLink>
             <NavLink to="/saved-movies" className="header__profile-link link">
-              {buttonText.savedMovies}
+              {BUTTON_TEXT.savedMovies}
             </NavLink>
             <NavLink
               to="/profile"
               className="header__btn header__btn_profile link"
             >
-              {buttonText.profile}
+              {BUTTON_TEXT.profile}
             </NavLink>
           </div>
         ) : (
@@ -80,10 +65,10 @@ function Header(props) {
       ) : (
         <div className="header__container">
           <NavLink to="/signup" className="header__link link">
-            {buttonText.register}
+            {BUTTON_TEXT.register}
           </NavLink>
           <NavLink to="/signin" className="header__btn button">
-            {buttonText.enter}
+            {BUTTON_TEXT.enter}
           </NavLink>
         </div>
       )}

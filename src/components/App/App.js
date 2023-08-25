@@ -15,14 +15,11 @@ import Profile from "../Profile/Profile.js";
 import Footer from "../Footer/Footer.js";
 import Register from "../Register/Register.js";
 import Preloader from "../Preloader/Preloader.js";
-
 //функции
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute.js";
-
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
-
+//апи
 import { getInitialMovies } from "../../utils/MoviesApi.js";
-
 import {
   checkToken,
   logIn,
@@ -36,19 +33,13 @@ import {
 } from "../../utils/MainApi";
 
 function App() {
-  // функции
+  //стейты
   const [loggedIn, setLoggedIn] = useState(false);
   const [showPreloader, setShowPreloader] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
-
   const [width, setWidth] = useState(window.innerWidth);
-
-  const [movies, setMovies] = useState(
-    // JSON.parse(localStorage.getItem("films"))
-    []
-  );
+  const [movies, setMovies] = useState([]);
   const [savedMovies, setSavedMovies] = useState("");
-
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState(false);
 
@@ -65,14 +56,15 @@ function App() {
   const showHeader = showHeaderPages.includes(location.pathname);
   const showFooterPages = ["/", "/movies", "/saved-movies"];
   const showFooter = showFooterPages.includes(location.pathname);
-
+  
+//эффекты
   useEffect(() => {
     checkToken()
       .then((res) => {
         if (res && typeof res === "object") {
           setLoggedIn(true);
-          // console.log(res);
-          // navigate("/movies", { replace: true });
+          setMessage("");
+          navigate("/movies", { replace: true });
         }
       })
       .catch((err) => {
@@ -94,33 +86,26 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // if (movies.length === 0) {
     setShowPreloader(true);
-    getInitialMovies()
+    setMessage("");
+    Promise.all([getInitialMovies(), getSavedMovies()])
       .then((res) => {
-        // console.log("getInitialMovies в useEffect из app.js", res);
-        // localStorage.setItem("films", JSON.stringify(res));
-        const result = res.map((item) => {
+        const movies = res[0];
+        const savedMovies = res[1];
+        const resultMovies = movies.map((item) => {
+          const movieSaved = savedMovies.find((saved) => {
+            return saved.movieId === item.id;
+          });
+          if (movieSaved) {
+            return { ...item, class: "liked" };
+          }
           return { ...item, class: "notLiked" };
         });
-        setMovies(result);
-        setErrorMessage(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setErrorMessage(true);
-      })
-      .finally(() => {
-        setShowPreloader(false);
-      });
-    // }
-  }, [loggedIn]);
-
-  useEffect(() => {
-    setShowPreloader(true);
-    getSavedMovies()
-      .then((res) => {
-        setSavedMovies(res);
+        const resultSavedMovies = savedMovies.map((item) => {
+          return { ...item, class: "remove" };
+        });
+        setMovies(resultMovies);
+        setSavedMovies(resultSavedMovies);
         setErrorMessage(false);
       })
       .catch((err) => {
@@ -144,19 +129,23 @@ function App() {
     }
   }, [loggedIn]);
 
+//функции обращения к апи
   function handleRegisterSubmit({ name, email, password }) {
-    // console.log(password, email);
     setShowPreloader(true);
     register(name, email, password)
       .then((res) => {
         if (res !== false) {
           navigate("/signin", { replace: true });
-          setMessage("Вы успешно зарегистрировались!");
+          setMessage("");
         }
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Что-то пошло не так! Попробуйте еще раз.");
+        if (err === "409") {
+          setMessage("Пользователь с таким email уже существует.");
+        } else {
+          setMessage("При регистрации пользователя произошла ошибка.");
+        }
       })
       .finally(() => {
         setShowPreloader(false);
@@ -169,15 +158,14 @@ function App() {
       .then((res) => {
         if (res !== false) {
           setLoggedIn(true);
-          // setUserEmail(email);
           navigate("/movies", { replace: true });
           localStorage.setItem("jwt", res.token);
-          console.log(res);
+          setMessage("");
         }
       })
       .catch((err) => {
         console.log(err);
-        setMessage("Что-то пошло не так! Попробуйте еще раз.");
+        setMessage("Вы ввели неправильный логин или пароль.");
       })
       .finally(() => {
         setShowPreloader(false);
@@ -185,14 +173,13 @@ function App() {
   }
 
   function handleExit() {
-    console.log("нажат выход из аккаунта");
     logOut()
       .then((res) => {
-        console.log("then выход из аккаунта", res);
         setLoggedIn(false);
         localStorage.removeItem("isShort");
         localStorage.removeItem("query");
-
+        localStorage.clear();
+        setMessage("");
         navigate("/", { replace: true });
       })
       .catch((err) => {
@@ -201,23 +188,31 @@ function App() {
   }
 
   function handleUpdateUser(user) {
-    console.log("handleUpdateUser", user);
-
     setUserInfo(user)
       .then((res) => {
         setCurrentUser(res);
+        setMessage("Данные профиля успешно изменены.");
       })
       .catch((err) => {
         console.log(err);
+        setMessage("При обновлении профиля произошла ошибка.");
       });
   }
 
   function handleSavedMovieDelete(movieID) {
-    deleteSavedMovie(movieID)
+    const removedMovie = savedMovies.find((item) => {
+      return item.movieId === movieID ? item : "";
+    });
+    deleteSavedMovie(removedMovie._id)
       .then(() => {
         setSavedMovies((savedMovies) =>
-          savedMovies.filter((c) => (c._id === movieID ? "" : c))
+          savedMovies.filter((c) => (c.movieId === movieID ? "" : c))
         );
+        setMovies((state) => {
+          return state.map((item) =>
+            item.id === movieID ? { ...item, class: "notLiked" } : item
+          );
+        });
       })
       .catch((err) => {
         console.log(err);
@@ -227,6 +222,12 @@ function App() {
   function handleMovieLike(movie) {
     saveMovie(movie)
       .then((newMovie) => {
+        setMovies((state) => {
+          return state.map((item) =>
+            item.id === newMovie.movieId ? { ...item, class: "liked" } : item
+          );
+        });
+        newMovie.class = "remove";
         setSavedMovies([newMovie, ...savedMovies]);
       })
       .catch((err) => {
@@ -245,11 +246,18 @@ function App() {
           <Route path="/" element={<Main />} />
           <Route
             path="/signup"
-            element={<Register handleRegisterSubmit={handleRegisterSubmit} />}
+            element={
+              <Register
+                handleRegisterSubmit={handleRegisterSubmit}
+                message={message}
+              />
+            }
           />
           <Route
             path="/signin"
-            element={<Login handleLogInSubmit={handleLogInSubmit} />}
+            element={
+              <Login handleLogInSubmit={handleLogInSubmit} message={message} />
+            }
           />
           <Route
             path="/movies"
@@ -262,6 +270,7 @@ function App() {
                 width={width}
                 errorMessage={errorMessage}
                 onLike={handleMovieLike}
+                onMovieDelete={handleSavedMovieDelete}
               />
             }
           />

@@ -10,6 +10,7 @@ function Register(props) {
         path="/signin"
         pathBtn="Войти"
         handleSubmit={props.handleRegisterSubmit}
+        message={props.message}
       />
     );
 }

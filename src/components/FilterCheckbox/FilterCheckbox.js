@@ -2,13 +2,13 @@ import { useState } from "react";
 import "./FilterCheckbox.css";
 
 function FilterCheckbox(props) {
-const [isChecked, setIsChecked] = useState(props.isShort);
+  const [isChecked, setIsChecked] = useState(props.isShort);
 
-function handleToggle() {
-  const newCheckStatus = !isChecked;
-  setIsChecked(newCheckStatus);
-  props.setIsShort(newCheckStatus);
-}
+  function handleToggle() {
+    const newCheckStatus = !isChecked;
+    setIsChecked(newCheckStatus);
+    props.setIsShort(newCheckStatus);
+  }
 
   return (
     <label className="checkbox__label">

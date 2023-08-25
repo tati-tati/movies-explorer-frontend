@@ -14,13 +14,13 @@ function MoviesCard(props) {
   }
 
   function handleLike() {
-    console.log(props.card);
     props.onLike(props.card);
   }
 
   function handleDeleteClick() {
     props.onMovieDelete(props.id);
   }
+
   return (
     <div className="card">
       <div className="card__info">
@@ -30,6 +30,7 @@ function MoviesCard(props) {
           <button
             className="card__like card__like_active button"
             type="button"
+            onClick={handleDeleteClick}
           />
         ) : props.buttonType === "notLiked" ? (
           <button
@@ -45,13 +46,18 @@ function MoviesCard(props) {
           />
         )}
       </div>
-      <a className="card__trailer-link" href={props.trailer} target="_blank">
+      <a
+        className="card__trailer-link"
+        href={props.trailer}
+        target="_blank"
+        rel="noreferrer"
+      >
         <img
           className="card__image"
           src={
-            props.buttonType === "notLiked" && "liked"
-              ? `${IMG_BASE_URL}${props.img}`
-              : props.img
+            props.buttonType === "remove"
+              ? props.img
+              : `${IMG_BASE_URL}${props.img}`
           }
           alt={`обложка фильма ${props.title}`}
         />

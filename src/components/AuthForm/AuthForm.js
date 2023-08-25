@@ -1,30 +1,17 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
-
 import logo from "../../images/logo.svg";
 import "./AuthForm.css";
 import "../../blocks/link.css";
 import "../../blocks/button.css";
 
+import { Link } from "react-router-dom";
+import { Validation, checkError } from "../Validation/validation";
+
 function AuthForm(props) {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { register, handleSubmit, errors, isValid } = Validation();
 
-  function handleInputName(evt) {
-    setName(evt.target.value);
-  }
-  function handleInputEmail(evt) {
-    setEmail(evt.target.value);
-  }
-
-  function handleInputPassword(evt) {
-    setPassword(evt.target.value);
-  }
-
-  function handleSubmitAuth(evt) {
-    evt.preventDefault();
-    props.handleSubmit({ name, password, email });
+  function handleSubmitAuth(data) {
+    // evt.preventDefault();
+    props.handleSubmit(data);
   }
 
   return (
@@ -32,7 +19,11 @@ function AuthForm(props) {
       <Link to="/" className="auth__logo_link">
         <img className="auth__logo" src={logo} alt="логотип приложения" />
       </Link>
-      <form className="auth__form" name="login" onSubmit={handleSubmitAuth}>
+      <form
+        className="auth__form"
+        name="login"
+        onSubmit={handleSubmit(handleSubmitAuth)}
+      >
         <h2 className="auth__title">{props.title}</h2>
         {props.nameInput && (
           <label className="auth__label">
@@ -41,11 +32,13 @@ function AuthForm(props) {
               className="auth__input"
               placeholder="Name"
               type="text"
-              onChange={handleInputName}
-              value={name}
+              name={"name"}
+              {...register("name", checkError("name"))}
               required
             />
-            <span className="auth__input_error">Что-то пошло не так...</span>
+            <span className="auth__input_error">
+              {errors.name ? errors.name.message : ""}
+            </span>
           </label>
         )}
         <label className="auth__label">
@@ -54,11 +47,13 @@ function AuthForm(props) {
             className="auth__input"
             placeholder="Email"
             type="email"
-            onChange={handleInputEmail}
-            value={email}
+            name={"email"}
+            {...register("email", checkError("email"))}
             required
           />
-          <span className="auth__input_error">Что-то пошло не так...</span>
+          <span className="auth__input_error">
+            {errors.email ? errors.email.message : ""}
+          </span>
         </label>
 
         <label className="auth__label">
@@ -67,14 +62,22 @@ function AuthForm(props) {
             className="auth__input"
             placeholder="Пароль"
             type="password"
-            onChange={handleInputPassword}
-            value={password}
+            name={"password"}
+            {...register("password", checkError("password"))}
             required
           />
-          <span className="auth__input_error">Что-то пошло не так...</span>
+          <span className="auth__input_error">
+            {errors.password ? errors.password.message : ""}
+          </span>
         </label>
-
-        <button className="auth__button button" type="submit">
+        <span className="auth__form_error">
+          {props.message ? props.message : ""}
+        </span>
+        <button
+          className="auth__button button"
+          type="submit"
+          disabled={!isValid}
+        >
           {props.buttonText}
         </button>
       </form>

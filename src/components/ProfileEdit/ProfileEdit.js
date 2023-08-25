@@ -1,30 +1,25 @@
 import "./ProfileEdit.css";
 
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { Validation, checkError } from "../Validation/validation";
 
 function ProfileEdit(props) {
-    const currentUser = useContext(CurrentUserContext);
+  const { register, handleSubmit, isValid } = Validation();
 
-  const [name, setName] = useState(currentUser.name);
-  const [email, setEmail] = useState(currentUser.email);
+  const currentUser = useContext(CurrentUserContext);
 
-
-  function handleChangeName(evt) {
-    setName(evt.target.value);
-  }
-
-  function handleChangeEmail(evt) {
-    setEmail(evt.target.value);
-  }
-
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    props.onUpdateUser({ name, email });
+  function handleSubmitForm(data) {
+    // evt.preventDefault();
+    props.onUpdateUser(data);
   }
 
   return (
-    <form className="profile-edit__form" name="profile" onSubmit={handleSubmit}>
+    <form
+      className="profile-edit__form"
+      name="profile"
+      onSubmit={handleSubmit(handleSubmitForm)}
+    >
       <h2 className="profile-edit__title">Привет, {currentUser.name}!</h2>
       <label className="profile-edit__label">
         Имя
@@ -32,8 +27,9 @@ function ProfileEdit(props) {
           className="profile-edit__input"
           placeholder="Name"
           type="text"
-          value={name}
-          onChange={handleChangeName}
+          defaultValue={currentUser.name}
+          name={"name"}
+          {...register("name", checkError("name"))}
         />
       </label>
       <label className="profile-edit__label">
@@ -42,14 +38,19 @@ function ProfileEdit(props) {
           className="profile-edit__input"
           placeholder="email"
           type="email"
-          onChange={handleChangeEmail}
-          value={email}
+          defaultValue={currentUser.email}
+          name={"email"}
+          {...register("email", checkError("email"))}
         />
       </label>
       <span className="profile-edit__error-span">
-        При обновлении профиля произошла ошибка.
+        {props.message ? props.message : ""}
       </span>
-      <button className="profile-edit__btn-submit button" type="submit">
+      <button
+        className="profile-edit__btn-submit button"
+        type="submit"
+        disabled={!isValid}
+      >
         Сохранить
       </button>
     </form>

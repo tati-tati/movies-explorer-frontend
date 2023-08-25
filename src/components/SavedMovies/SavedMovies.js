@@ -4,10 +4,10 @@ import MoviesCard from "../MoviesCard/MoviesCard";
 import { useState } from "react";
 
 function SavedMovies(props) {
-  const [querySavedMovies, setQuerySavedMovies] = useState([]);
+  const [querySavedMovies, setQuerySavedMovies] = useState("");
   const [isShortSaved, setIsShortSaved] = useState(false);
-  
 
+  //фильтрация
   let filteredSavedMovies = props.savedMovies.filter((movie) => {
     return (
       movie.nameEN.toLowerCase().includes(querySavedMovies.toLowerCase()) ||
@@ -16,13 +16,12 @@ function SavedMovies(props) {
   });
   if (isShortSaved) {
     filteredSavedMovies = filteredSavedMovies.filter((movie) => {
-      return movie.duration < 40;
+      return movie.duration < 41;
     });
   }
 
-    let cards;
-
-   cards = props.filteredSavedMovies.map((card) => {
+  //отрисовка
+  const cards = filteredSavedMovies.map((card) => {
     return createCard(card);
   });
 
@@ -30,7 +29,7 @@ function SavedMovies(props) {
     return (
       <MoviesCard
         key={card._id}
-        id={card._id}
+        id={card.movieId}
         title={card.nameRU}
         length={card.duration}
         img={card.image}
@@ -40,6 +39,7 @@ function SavedMovies(props) {
       />
     );
   }
+  
   return (
     <>
       <SearchForm

@@ -1,10 +1,8 @@
+import "./Movies.css";
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import "./Movies.css";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import { useEffect, useState } from "react";
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
-import { useContext } from "react";
 import { DESKTOP_CARDS, MOBILE_CARDS } from "../../utils/constants";
 
 function Movies(props) {
@@ -17,8 +15,6 @@ function Movies(props) {
     return isLocalStorageFull ? JSON.parse(isLocalStorageFull) : false;
   });
   const [counter, setCounter] = useState(0);
-
-  const currentUser = useContext(CurrentUserContext);
 
   useEffect(() => {
     localStorage.setItem("query", queryMovies);
@@ -37,13 +33,11 @@ function Movies(props) {
 
   if (isShort) {
     filteredMovies = filteredMovies.filter((movie) => {
-      return movie.duration < 40;
+      return movie.duration < 41;
     });
   }
-  // console.log(filteredMovies.length);
 
   let cards;
-  // function showCards() {
   if (props.width < 500) {
     cards = filteredMovies.slice(0, MOBILE_CARDS + counter).map((card) => {
       return createCard(card);
@@ -53,7 +47,6 @@ function Movies(props) {
       return createCard(card);
     });
   }
-  // }
 
   function handleCounter() {
     setCounter(counter + 1);
@@ -63,15 +56,15 @@ function Movies(props) {
     return (
       <MoviesCard
         key={card.id}
+        id={card.id}
         card={card}
         title={card.nameRU}
         length={card.duration}
         img={card.image.url}
         trailer={card.trailerLink}
         buttonType={card.class}
-        // setSelectedCard={props.setSelectedCard}
         onLike={props.onLike}
-        // onCardDelete={props.onCardDelete}
+        onMovieDelete={props.onMovieDelete}
       />
     );
   }

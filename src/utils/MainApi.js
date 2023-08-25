@@ -1,10 +1,10 @@
-import {IMG_BASE_URL} from "./constants";
-// import { BASE_URL } from "./constants"
-
+import { 
+  IMG_BASE_URL, 
+  // BASE_URL 
+} from "./constants";
 const BASE_URL = "http://localhost:3000";
 
 function handleResponse(res) {
-  // console.log('auth api', res);
   if (res.ok) {
     return res.json();
   } else {
@@ -103,30 +103,10 @@ export function saveMovie(item) {
   }).then(handleResponse);
 }
 
-// удалить сохраненный фильм
 export function deleteSavedMovie(movieId) {
-  // console.log(cardId, `${this._baseUrl}/cards/${cardId}`)
   return fetch(`${BASE_URL}/movies/${movieId}`, {
     method: "DELETE",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
   }).then(handleResponse);
 }
-
-// export function changeLikeCardStatus(id, status) {
-//   if (status) {
-//     return fetch(`${BASE_URL}/cards/${id}/likes`, {
-//       method: "PUT",
-//     headers: { "Content-Type": "application/json" },
-//     credentials : "include"
-
-//     }).then(handleResponse);
-//   } else {
-//     return fetch(`${BASE_URL}/cards/${id}/likes`, {
-//       method: "DELETE",
-//     headers: { "Content-Type": "application/json" },
-//     credentials : "include"
-
-//     }).then(handleResponse);
-//   }
-// }

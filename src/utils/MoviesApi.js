@@ -1,4 +1,3 @@
-// const MOVIES_BASE_URL = "http://localhost:3000";
 import { MOVIES_BASE_URL } from "./constants";
 
 function handleResponse(res) {
@@ -13,7 +12,6 @@ export function getInitialMovies() {
   return fetch(`${MOVIES_BASE_URL}`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
-    // credentials: "include",
   }).then(handleResponse);
 }
 
