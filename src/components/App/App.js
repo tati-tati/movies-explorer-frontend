@@ -66,12 +66,10 @@ function App() {
         .then((res) => {
           if (res && typeof res === "object") {
             setLoggedIn(true);
-            setMessage("");
           }
         })
         .catch((err) => {
           console.log(err);
-          setMessage(err.message);
         })
         .finally(() => {
           setIsTokenChecked(true);
@@ -152,7 +150,7 @@ function App() {
       .then((res) => {
         if (res !== false) {
           navigate("/signin", { replace: true });
-          setMessage("");
+          handleLogInSubmit({ email, password });
         }
       })
       .catch((err) => {

@@ -1,5 +1,7 @@
-import { IMG_BASE_URL, BASE_URL } from "./constants";
-// const BASE_URL = "http://localhost:3000";
+import { IMG_BASE_URL, 
+  // BASE_URL 
+} from "./constants";
+const BASE_URL = "http://localhost:3000";
 
 function handleResponse(res) {
   if (!res.ok) {
