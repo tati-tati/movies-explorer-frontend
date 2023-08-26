@@ -17,6 +17,7 @@ import Register from "../Register/Register.js";
 import Preloader from "../Preloader/Preloader.js";
 //функции
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute.js";
+import RouteCheckElement from "../RouteCheck/RouteCheck"
 import { CurrentUserContext } from "../../contexts/CurrentUserContext.js";
 //апи
 import { getInitialMovies } from "../../utils/MoviesApi.js";
@@ -169,8 +170,6 @@ function App() {
         if (res !== false) {
           setLoggedIn(true);
           navigate("/movies", { replace: true });
-          localStorage.setItem("jwt", res.token);
-          setMessage("");
         }
       })
       .catch((err) => {
@@ -258,18 +257,22 @@ function App() {
             <Route
               path="/signup"
               element={
-                <Register
+                <RouteCheckElement
+                  element={Register}
                   handleRegisterSubmit={handleRegisterSubmit}
                   message={message}
+                  loggedIn={loggedIn}
                 />
               }
             />
             <Route
               path="/signin"
               element={
-                <Login
+                <RouteCheckElement
+                  element={Login}
                   handleLogInSubmit={handleLogInSubmit}
                   message={message}
+                  loggedIn={loggedIn}
                 />
               }
             />
