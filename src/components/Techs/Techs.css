@@ -1,0 +1,109 @@
+.techs {
+  background: #f5f5f5;
+  padding: 100px 70px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.techs__subtitle {
+  font-size: 50px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 58px; /* 116% */
+  letter-spacing: -2px;
+  margin: 0;
+  padding: 90px 0 26px;
+}
+
+.techs__text {
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 20px; /* 150% */
+  letter-spacing: -0.56px;
+  margin: 0 auto;
+  max-width: 460px;
+  align-self: center;
+}
+
+.techs__container {
+  display: inline-flex;
+  column-gap: 10px;
+  padding-top: 100px;
+}
+
+.techs__unit {
+  border-radius: 10px;
+  background: #e8e8e8;
+  width: 90px;
+  height: 60px;
+  text-align: center;
+  padding-top: 21px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.56px;
+  margin: 0;
+}
+
+@media screen and (max-width: 815px) {
+  .techs {
+    padding: 90px 50px;
+  }
+  .techs__subtitle {
+    padding: 80px 0 22px;
+  }
+  .techs__text {
+    font-size: 12px;
+    line-height: 18px; /* 150% */
+    max-width: 450px;
+    letter-spacing: -0.48px;
+  }
+
+  .techs__container {
+    padding-top: 82px;
+  }
+  .techs__unit {
+    width: 84px;
+    height: 57px;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -0.48px;
+  }
+}
+
+@media screen and (max-width: 720px) {
+  .techs {
+    background: #fff;
+    padding: 70px 18px;
+  }
+  .techs__subtitle {
+    text-align: center;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: -1.2px;
+    padding: 60px 0 24px;
+  }
+  .techs__text {
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 16px; /* 145.455% */
+    letter-spacing: -0.44px;
+  }
+  .techs__container {
+    display: grid;
+    grid-template-columns: 84px 84px;
+    column-gap: 10px;
+    row-gap: 10px;
+    padding-top: 50px;
+    justify-content: center;
+  }
+}

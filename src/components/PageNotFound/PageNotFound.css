@@ -1,0 +1,52 @@
+.page-not-found {
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.page-not-found__title {
+    text-align: center;
+    font-size: 140px;
+    font-weight: 400;
+    margin: 0 auto;
+    padding-top: 246px;
+}
+
+.page-not-found__subtitle {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0 auto;
+    padding: 5px 0 184px;
+}
+
+.page-not-found__btn-back {
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    border: none;
+    padding: 0;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+@media screen and (max-width: 900px){
+    .page-not-found__title {
+        padding-top: 408px;
+    }
+}
+
+@media screen and (max-width: 600px){
+    .page-not-found__title {
+        padding-top: 329px;
+    }
+    .page-not-found__title {
+        font-size: 80px;
+    }
+    .page-not-found__subtitle {
+        font-size: 12px;
+        padding: 10px 0 284px;
+    }
+    .page-not-found__btn-back {
+        font-size: 12px;
+    }
+}
